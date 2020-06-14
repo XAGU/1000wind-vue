@@ -51,7 +51,7 @@
           </el-card>
           <h2 class="title">实战进阶</h2>
           <el-card>
-            <el-tabs v-model="activeId" @tab-click="handleClick" style="padding:16px">
+            <el-tabs v-model="szjjActiveId" @tab-click="handleSzjjClick" style="padding:16px">
               <el-tab-pane
                 v-for="(item,index) in subjects"
                 :key="index"
@@ -61,13 +61,13 @@
                 <div class="el-row">
                   <div
                     class="el-col el-col-6 float-left practice-item"
-                    v-for="(item,index) in practical"
+                    v-for="(item,index) in szjjCourse"
                     :key="index"
                   >
                     <div class="item">
-                      <img :src="item.practicalCover" />
-                      <el-tooltip effect="dark" :content="item.practicalName" placement="top">
-                        <p class="black">{{item.practicalName}}</p>
+                      <img :src="item.courseCove" />
+                      <el-tooltip effect="dark" :content="item.courseName" placement="top">
+                        <p class="black">{{item.courseName}}</p>
                       </el-tooltip>
                       <div class="videoPlay">
                         <img
@@ -75,10 +75,10 @@
                         />
                       </div>
                       <p class="sta">
-                        <span># Java</span>
+                        <span># {{item.subjectType.subjectName}}</span>
                         <span>
                           <i class="el-icon-user"></i>
-                          {{item.practicalClick}}
+                          {{item.courseClick}}
                         </span>
                         <span class="float-right">千峰科技</span>
                       </p>
@@ -90,7 +90,7 @@
           </el-card>
           <h2 class="title">技术公开课</h2>
           <el-card>
-            <el-tabs v-model="activeId" @tab-click="handleClick" style="padding:16px">
+            <el-tabs v-model="jsgkkActiveId" @tab-click="handleJsgkkClick" style="padding:16px">
               <el-tab-pane
                 v-for="(item,index) in subjects"
                 :key="index"
@@ -100,13 +100,13 @@
                 <div class="el-row">
                   <div
                     class="el-col el-col-6 float-left practice-item"
-                    v-for="(item,index) in practical"
+                    v-for="(item,index) in jsgkkCourse"
                     :key="index"
                   >
                     <div class="item">
-                      <img :src="item.practicalCover" />
-                      <el-tooltip effect="dark" :content="item.practicalName" placement="top">
-                        <p class="black">{{item.practicalName}}</p>
+                      <img :src="item.courseCove" />
+                      <el-tooltip effect="dark" :content="item.courseName" placement="top">
+                        <p class="black">{{item.courseName}}</p>
                       </el-tooltip>
                       <div class="videoPlay">
                         <img
@@ -114,10 +114,10 @@
                         />
                       </div>
                       <p class="sta">
-                        <span># Java</span>
+                        <span># {{item.subjectType.subjectName}}</span>
                         <span>
                           <i class="el-icon-user"></i>
-                          {{item.practicalClick}}
+                          {{item.courseClick}}
                         </span>
                         <span class="float-right">千峰科技</span>
                       </p>
@@ -134,7 +134,7 @@
                 <span class="line"></span>
                 毕设项目
               </h3>
-              <el-tabs v-model="activeId" @tab-click="handleClick" style="padding:16px">
+              <el-tabs v-model="bsxmActiveId" @tab-click="handleBsxmClick" style="padding:16px">
                 <el-tab-pane
                   v-for="(item,index) in subjects"
                   :key="index"
@@ -144,13 +144,13 @@
                   <div class="el-row">
                     <div
                       class="el-col el-col-6 float-left practice-item"
-                      v-for="(item,index) in practical"
+                      v-for="(item,index) in bsxmCourse"
                       :key="index"
                     >
                       <div class="item">
-                        <img :src="item.practicalCover" />
-                        <el-tooltip effect="dark" :content="item.practicalName" placement="top">
-                          <p class="black">{{item.practicalName}}</p>
+                        <img :src="item.courseCove" />
+                        <el-tooltip effect="dark" :content="item.courseName" placement="top">
+                          <p class="black">{{item.courseName}}</p>
                         </el-tooltip>
                         <div class="videoPlay">
                           <img
@@ -158,16 +158,36 @@
                           />
                         </div>
                         <p class="sta">
-                          <span># Java</span>
+                          <span># {{item.subjectType.subjectName}}</span>
                           <span>
                             <i class="el-icon-user"></i>
-                            {{item.practicalClick}}
+                            {{item.courseClick}}
                           </span>
                           <span class="float-right">千峰科技</span>
                         </p>
                       </div>
                     </div>
                   </div>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
+            <div class="gkk" style="margin-top: 40px;">
+              <h3 class="title">
+                <span class="line"></span>
+                毕设公开课
+              </h3>
+              <el-tabs v-model="bsgkkActiveId" @tab-click="handleBsgkkClick" style="padding:16px">
+                <el-tab-pane
+                  v-for="(item,index) in subjects"
+                  :key="index"
+                  :label="item.subjectName"
+                  :name="item.subjectId+''"
+                >
+                  <el-table :data="tableData" style="margin-top: 20px;" border>
+                    <el-table-column prop="date" label="日期" width="180"></el-table-column>
+                    <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+                    <el-table-column prop="address" label="地址"></el-table-column>
+                  </el-table>
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -196,39 +216,84 @@ export default {
     subjects.unshift({ subjectId: "0", subjectName: "全部" });
     result = await api.getCourseBySubjects(0);
     let practical = result.data;
+    result = await api.getSzjjCourseByStyleAndSubject(0);
+    let szjjCourse = result.data;
+    result = await api.getJsgkkCourseByStyleAndSubject(0);
+    let jsgkkCourse = result.data;
+    result = await api.getBsxmCourseByStyleAndSubject(0);
+    let bsxmCourse = result.data;
+    result = await api.getBsgkkCourseByStyleAndSubject(0);
+    let bsgkkCourse = result.data;
     return {
-      subjects: subjects,
       activeId: "0",
-      practical: practical
+      szjjActiveId: "0",
+      jsgkkActiveId: "0",
+      bsxmActiveId: "0",
+      bsgkkActiveId: "0",
+      subjects: subjects,
+      practical: practical,
+      szjjCourse: szjjCourse,
+      jsgkkCourse: jsgkkCourse,
+      bsxmCourse: bsxmCourse,
+      bsgkkCourse: bsgkkCourse
     };
   },
+  data() {
+    return {};
+  },
   methods: {
-    handleClick(tab, event) {
-      api.getCourseBySubjects(this.activeId).then(result => {
-        if (result.code == api.SUCCESS_CODE) {
-          this.practical = result.data;
-          if (this.practical.length > 0) {
-            this.$notify({
-              title: "成功",
-              message: "载入数据成功，共" + this.practical.length + "条数据",
-              type: "success",
-              duration: 2000
-            });
-          } else {
-            this.$notify({
-              title: "对不起",
-              message: "该分类下暂时还没有实训方案",
-              type: "warning",
-              duration: 2000
-            });
-          }
+    setCourseData(model, data) {
+      console.log(model);
+      console.log(data);
+      if (data.code == api.SUCCESS_CODE) {
+        this[model] = data.data;
+        let length = this[model].length;
+        if (length > 0) {
+          this.$notify({
+            title: "成功",
+            message: "载入数据成功，共" + length + "条数据",
+            type: "success",
+            duration: 2000
+          });
         } else {
-          this.$notify.error({
-            title: "错误",
-            message: "加载数据失败",
+          this.$notify({
+            title: "对不起",
+            message: "该分类下暂时还没有实训方案",
+            type: "warning",
             duration: 2000
           });
         }
+      } else {
+        this.$notify.error({
+          title: "错误",
+          message: "加载数据失败",
+          duration: 2000
+        });
+      }
+    },
+    handleClick(tab, event) {
+      api.getCourseBySubjects(this.activeId).then(result => {
+        this.setCourseData("practical", result);
+      });
+    },
+    handleBsgkkClick() {
+      api.getBsgkkCourseByStyleAndSubject(this.bsgkkCourse).then(result => {
+        this.setCourseData("bsgkkCourse", result);
+      });
+    },
+    handleSzjjClick() {
+      api.getSzjjCourseByStyleAndSubject(this.szjjActiveId).then(result => {
+        this.setCourseData("szjjCourse", result);
+      });
+    },
+    handleBsxmClick() {
+      api.getBsxmCourseByStyleAndSubject(this.bsxmActiveId).then(result => {
+        this.setCourseData("bsxmCourse", result);
+      });
+    },
+    handleJsgkkClick() {
+      api.getJsgkkCourseByStyleAndSubject(this.jsgkkActiveId).then(result => {
+        this.setCourseData("jsgkkCourse", result);
       });
     },
     downLoadPractical(url, practicalId) {
@@ -324,6 +389,7 @@ export default {
 .practiceCenter .practice-item .item .sta span {
   color: #999;
 }
+
 .practiceCenter .practice-item .item .sta span:nth-child(2) {
   margin-left: 18px;
 }

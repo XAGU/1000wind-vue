@@ -70,7 +70,7 @@
                   <h3>简介: {{item.courseInfo}}</h3>
                   <div class="b">
                     <div class="label">
-                      <span>Java</span>
+                      <span>{{item.subjectType.subjectName}}</span>
                     </div>
                     <div class="label gkrs">已学习: {{item.courseClick}}人</div>
                     <p class="ls">讲师:{{item.teacher.realName}}</p>

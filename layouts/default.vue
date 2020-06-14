@@ -10,15 +10,19 @@
         </div>
         <div class="header-menu float-right">
           <ul class="float-left">
-            <a href="/studentIndex">
+            <nuxt-link to="/studentIndex">
               <li :class="$store.state.currentActive==='studentIndex'?'menu-active':''">学习中心</li>
-            </a>
-            <a href="/practiceCenterStu">
-              <li :class="$store.state.currentActive==='practiceCenterStu'?'menu-active':''">实践中心</li>
-            </a>
-            <a href="/stuMyInformation">
-              <li :class="$store.state.currentActive==='stuMyInformation'?'menu-active':''">个人中心</li>
-            </a>
+            </nuxt-link>
+            <nuxt-link to="/practiceCenterStu">
+              <a href="/practiceCenterStu">
+                <li :class="$store.state.currentActive==='practiceCenterStu'?'menu-active':''">实践中心</li>
+              </a>
+            </nuxt-link>
+            <nuxt-link to="/stuMyInformation">
+              <a href="/stuMyInformation">
+                <li :class="$store.state.currentActive==='stuMyInformation'?'menu-active':''">个人中心</li>
+              </a>
+            </nuxt-link>
           </ul>
           <div class="header-user-info float-left">
             <div>
@@ -118,10 +122,10 @@ html {
 }
 
 * {
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-    font-family: "\5FAE\8F6F\96C5\9ED1";
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-family: "\5FAE\8F6F\96C5\9ED1";
 }
 
 body {
@@ -240,6 +244,5 @@ body {
 #footer {
   background: linear-gradient(135deg, #409eff, #2b78e4);
 }
-
 </style>
 
