@@ -15,7 +15,8 @@ module.exports = {
     ]
   },
   css: [
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    'assets/main.css'
   ],
   plugins: [
     {
@@ -29,7 +30,7 @@ module.exports = {
   axios: {
     proxy: true,
     prefix: '/proxy/',
-    credentials: true 
+    credentials: true
   },
   proxy: {
     '/proxy/': {
@@ -43,7 +44,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#F56C6C' },
   /*
   ** Build configuration
   */

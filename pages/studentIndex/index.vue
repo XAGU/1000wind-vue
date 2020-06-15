@@ -105,8 +105,8 @@
 import api from "../../utils/api";
 export default {
   layout: "default",
-  beforeMount() {
-    this.$store.commit("setCurrentActive", "studentIndex");
+  fetch({ store, params }) {
+    store.commit("setCurrentActive", "studentIndex");
   },
   async asyncData({ req }) {
     if (process.server) {
@@ -259,16 +259,15 @@ ul {
 
 /* 待办事件 */
 .studentIndex .el-main .el-card .noData {
-    display: block;
-    width: 120px;
-    margin: 20px auto 0;
+  display: block;
+  width: 120px;
+  margin: 20px auto 0;
 }
 
 .studentIndex .el-main .el-card .noDataText {
-    text-align: center;
-    color: #999;
+  text-align: center;
+  color: #999;
 }
-
 
 /* 热门课程 */
 .el-tabs__header {
@@ -384,9 +383,6 @@ ul {
 }
 
 /* 我的课程 */
-.el-card .el-card__body {
-  padding: 10px;
-}
 
 .my-course-container .courses .course-item {
   background: #fafafa;

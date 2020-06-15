@@ -14,14 +14,10 @@
               <li :class="$store.state.currentActive==='studentIndex'?'menu-active':''">学习中心</li>
             </nuxt-link>
             <nuxt-link to="/practiceCenterStu">
-              <a href="/practiceCenterStu">
-                <li :class="$store.state.currentActive==='practiceCenterStu'?'menu-active':''">实践中心</li>
-              </a>
+              <li :class="$store.state.currentActive==='practiceCenterStu'?'menu-active':''">实践中心</li>
             </nuxt-link>
-            <nuxt-link to="/stuMyInformation">
-              <a href="/stuMyInformation">
-                <li :class="$store.state.currentActive==='stuMyInformation'?'menu-active':''">个人中心</li>
-              </a>
+            <nuxt-link to="/personal/message">
+              <li :class="$store.state.currentActive==='stuMyInformation'?'menu-active':''">个人中心</li>
             </nuxt-link>
           </ul>
           <div class="header-user-info float-left">
@@ -128,6 +124,15 @@ html {
   font-family: "\5FAE\8F6F\96C5\9ED1";
 }
 
+li,
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #409eff;
+}
 body {
   background-color: #f3f3fb;
 }
@@ -171,6 +176,7 @@ body {
   background: linear-gradient(135deg, #409eff, #2b78e4);
   height: 60px;
   padding: 0 20px;
+  margin-bottom: 8px;
 }
 
 .header-menu li:hover,

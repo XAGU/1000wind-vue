@@ -65,11 +65,11 @@ export default {
   /**
    * 根据实训分类id查实训
    */
-  getCourseBySubjects(id) {
+  getCourseBySubjects(page, id) {
     if (id === 0 || id === "0") {
-      return http.requestGet(baseUrl + 'api/practical?page=1&limit=8')
+      return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8')
     } else {
-      return http.requestGet(baseUrl + 'api/practical?page=1&limit=8&subjectId=' + id)
+      return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8&subjectId=' + id)
     }
   },
 
@@ -84,11 +84,11 @@ export default {
   /**
   * 根据课程类型和科目查课程 
   */
-  getCourseByStyleAndSubject(courseStyle, subjectId) {
+  getCourseByStyleAndSubject(page, courseStyle, subjectId) {
     if (subjectId === 0 || subjectId === "0") {
-      return http.requestGet(baseUrl + 'api/course/containSubject?page=1&limit=8&courseStyle=' + courseStyle)
+      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=5&courseStyle=' + courseStyle)
     } else {
-      return http.requestGet(baseUrl + 'api/course/containSubject?page=1&limit=8&courseStyle=' + courseStyle + "&subjectType.subjectId=" + subjectId)
+      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=5&courseStyle=' + courseStyle + "&subjectType.subjectId=" + subjectId)
     }
   },
 
@@ -96,8 +96,8 @@ export default {
    * 查询实战进阶的课程
    * @param {} subjectId 
    */
-  getSzjjCourseByStyleAndSubject(subjectId) {
-    return this.getCourseByStyleAndSubject(0, subjectId)
+  getSzjjCourseByStyleAndSubject(page, subjectId) {
+    return this.getCourseByStyleAndSubject(page, 0, subjectId)
   },
 
 
@@ -105,25 +105,34 @@ export default {
    * 查询技术公开课的课程
    * @param {} subjectId 
    */
-  getJsgkkCourseByStyleAndSubject(subjectId) {
-    return this.getCourseByStyleAndSubject(1, subjectId)
+  getJsgkkCourseByStyleAndSubject(page, subjectId) {
+    return this.getCourseByStyleAndSubject(page, 1, subjectId)
   },
 
   /**
    * 查询毕设项目的课程
    * @param {} subjectId 
    */
-  getBsxmCourseByStyleAndSubject(subjectId) {
-    return this.getCourseByStyleAndSubject(2, subjectId)
+  getBsxmCourseByStyleAndSubject(page, subjectId) {
+    return this.getCourseByStyleAndSubject(page, 2, subjectId)
   },
 
   /**
    * 查询毕设公开课的课程
    * @param {} subjectId 
    */
-  getBsgkkCourseByStyleAndSubject(subjectId) {
-    return this.getCourseByStyleAndSubject(3, subjectId)
+  getBsgkkCourseByStyleAndSubject(page, subjectId) {
+    return this.getCourseByStyleAndSubject(page, 3, subjectId)
   },
 
+
+
+
+  /**
+  * 获取所有的教师
+  */
+  getTeachers(page) {
+    return http.requestGet(baseUrl + 'api/user?page=' + page + '&limit=10&roleId=2')
+  },
 
 }
