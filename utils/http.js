@@ -8,7 +8,6 @@ axios.defaults.withCredentials = true;
 //设置超时时间
 axios.defaults.timeout = 10000;
 
-
 export default {
   setUpCookie(cookie) {
     axios.defaults.headers.cookie = cookie;

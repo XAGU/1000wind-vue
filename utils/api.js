@@ -1,8 +1,8 @@
 import http from './http'
 
-export const baseUrl = "http://localhost:3000/proxy/";
+//export const baseUrl = "http://localhost:3000/proxy/";
 //export const baseUrl = "http://rlfz.1000wind.top/proxy/";
-//export const baseUrl = "/";
+export const baseUrl = "/";
 
 
 const SUCCESS_CODE = 200;
@@ -77,7 +77,7 @@ export default {
     if (id === 0 || id === "0") {
       return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8')
     } else {
-      return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8&subjectId=' + id)
+      return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8&subjectType.subjectId=' + id)
     }
   },
 
@@ -94,9 +94,9 @@ export default {
   */
   getCourseByStyleAndSubject(page, courseStyle, subjectId) {
     if (subjectId === 0 || subjectId === "0") {
-      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=5&courseStyle=' + courseStyle)
+      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=8&courseStyle=' + courseStyle)
     } else {
-      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=5&courseStyle=' + courseStyle + "&subjectType.subjectId=" + subjectId)
+      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=8&courseStyle=' + courseStyle + "&subjectType.subjectId=" + subjectId)
     }
   },
 
