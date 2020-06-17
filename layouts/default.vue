@@ -34,10 +34,7 @@
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <i class="el-icon-user"></i> 个人中心
-                  </el-dropdown-item>
-                  <el-dropdown-item>
+                  <el-dropdown-item @click.native="logout()">
                     <i class="el-icon-switch-button"></i> 退出
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -83,8 +80,11 @@ export default {
   },
   created() {
     api.getLoginInfo().then(result => {
+      console.log(result.code);
       if (result.code === api.SUCCESS_CODE) {
         this.myself = result.data;
+      } else {
+        this.$router.push("/userLogin");
       }
     });
   },
@@ -92,6 +92,21 @@ export default {
     onHeadImgError() {
       this.myself.headImg = "http://localhost:8080/upload/img/default_head.jpg";
       return false;
+    },
+    logout() {
+      console.log("aaa");
+      api.logout().then(result => {
+        if (result.code === api.SUCCESS_CODE) {
+          this.$message({
+            message: "退出成功",
+            type: "success"
+          });
+          this.$router.replace("/userLogin");
+        } else {
+          this.$message.error(result.msg);
+          this.$router.replace("/userLogin");
+        }
+      });
     }
   }
 };

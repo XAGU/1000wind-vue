@@ -28,6 +28,13 @@ export default {
   },
 
   /**
+  * 登录
+  */
+  logout() {
+    return http.requestPost(baseUrl + 'logout');
+  },
+
+  /**
    * 获取当前用户信息
    */
   getLoginInfo() {
@@ -133,6 +140,35 @@ export default {
   */
   getTeachers(page) {
     return http.requestGet(baseUrl + 'api/user?page=' + page + '&limit=10&roleId=2')
+  },
+
+  /**
+  * 获取所有的签到
+  */
+  getTeachers(page) {
+    return http.requestGet(baseUrl + 'api/userSign?page=1&limit')
+  },
+
+
+  /**
+  * 修改个人信息
+  */
+  updateSelfInfo(username, realName, phoneNum, email, desc) {
+    return http.requestPut(baseUrl + 'api/user/myself', {
+      "username": username,
+      "realName": realName,
+      "phoneNum": phoneNum,
+      "email": email,
+      "desc": desc
+    })
+  },
+
+
+  /**
+  * 获取某个课程的签到
+  */
+  getCourseSign(courseId) {
+    return http.requestGet(baseUrl + 'api/userSign?page=1&limit=10&courseId=' + courseId)
   },
 
 }

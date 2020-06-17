@@ -33,7 +33,7 @@
                 prefix-icon="el-icon-lock"
                 tabindex="2"
                 autocomplete="on"
-                show-password="true"
+                :show-password="true"
                 @keyup.native="checkCapslock"
                 @blur="capsTooltip = false"
                 @keyup.enter.native="handleLogin"
@@ -156,14 +156,14 @@ export default {
   border-radius: 16px;
   position: relative;
 }
-.lg-title {
+.login-page .lg-title {
   font-weight: normal;
   color: #181e33;
   font-size: 20px;
   margin-bottom: 44px;
 }
 
-.login-form {
+.login-page .login-form {
   position: relative;
   width: 520px;
   max-width: 100%;
@@ -171,12 +171,12 @@ export default {
   overflow: hidden;
 }
 
-.tips {
+.login-page .tips {
   font-size: 14px;
   color: #fff;
   margin-bottom: 10px;
 }
-.el-input__inner {
+.login-page .el-input__inner {
   width: 100%;
   height: 48px;
   vertical-align: top;
@@ -191,7 +191,7 @@ export default {
   box-sizing: border-box;
 }
 
-.login-button {
+.login-page .login-button {
   width: 360px;
   height: 48px;
   background: linear-gradient(135deg, #409eff, #2b78e4);
@@ -206,11 +206,11 @@ export default {
   border: none;
 }
 
-.el-input__icon {
+.login-page  .el-input__icon {
   width: 50px;
 }
 
-.el-input--prefix .el-input__inner {
+.login-page  .el-input--prefix .el-input__inner {
   padding-left: 60px;
 }
 

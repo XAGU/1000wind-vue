@@ -3,7 +3,7 @@
     <el-main>
       <el-card>
         <h2>我的消息</h2>
-        <el-tabs v-model="activeName">
+        <el-tabs>
           <el-tab-pane label="消息列表">
             <div class="cardItem" v-for="(item,index) in message" :key="index">
               <i class="el-icon-bell typeIcon" style="background: rgb(255, 149, 0);"></i>

@@ -163,7 +163,7 @@ export default {
   line-height: 40px;
   text-align: center;
 }
-.myQuestionMenu .openMenu ul li.active,
+.myQuestionMenu .openMenu ul .nuxt-link-exact-active li,
 .myQuestionMenu .openMenu ul li:hover {
   color: #409eff;
 }
@@ -197,14 +197,13 @@ export default {
   color: #262c45;
   margin: 14px 0;
 }
-.el-card {
+.studentHome .homeMain .stuInformationList .el-card {
   border-radius: 0 !important;
   -webkit-box-shadow: 0 !important;
   box-shadow: 0 !important;
   margin: 8px !important;
 }
-.el-card .el-card__body {
+.studentHome .homeMain .stuInformationList .el-card .el-card__body {
   padding: 10px;
 }
-
 </style>
