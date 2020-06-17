@@ -1,7 +1,8 @@
 import http from './http'
 
 export const baseUrl = "http://localhost:3000/proxy/";
-//export const baseUrl = "http://localhost:8080/proxy";
+//export const baseUrl = "http://rlfz.1000wind.top/proxy/";
+//export const baseUrl = "/";
 
 
 const SUCCESS_CODE = 200;
@@ -142,12 +143,6 @@ export default {
     return http.requestGet(baseUrl + 'api/user?page=' + page + '&limit=10&roleId=2')
   },
 
-  /**
-  * 获取所有的签到
-  */
-  getTeachers(page) {
-    return http.requestGet(baseUrl + 'api/userSign?page=1&limit')
-  },
 
 
   /**

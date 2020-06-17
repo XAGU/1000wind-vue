@@ -35,6 +35,7 @@ module.exports = {
   proxy: {
     '/proxy/': {
       target: 'http://localhost:8080',
+      //target: 'http://rlfz.1000wind.top/',
       pathRewrite: {
         changeOrigin: true,
         '^/proxy/': ''

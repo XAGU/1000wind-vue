@@ -271,7 +271,7 @@
                     >
                       <div class="line"></div>
                       <div class="pic">
-                        <img :src="item.headImg" />
+                        <img :src="'http://rlfz.1000wind.top'+item.headImg" />
                       </div>
                       <p class="name">{{item.realName}}</p>
                       <el-tooltip class="pp" effect="dark" :content="item.desc" placement="top">
