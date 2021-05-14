@@ -2,15 +2,22 @@
   <div class="studentHome">
     <el-main class="homeMain">
       <el-container class="stuInformationList">
-        <el-header class="stuInfo clear-fix" style="height: 100px; background: rgb(255, 255, 255);">
-          <el-avatar src class="float-left" style="height: 50px; width: 50px; line-height: 50px;"></el-avatar>
+        <el-header
+          class="stuInfo clear-fix"
+          style="height: 100px; background: rgb(255, 255, 255)"
+        >
+          <el-avatar
+            :src="this.$auth.user.headImg"
+            class="float-left"
+            style="height: 50px; width: 50px; line-height: 50px"
+          ></el-avatar>
           <ul class="float-left">
             <li>XAGU</li>
-            <li style="font-size: 12px; color: rgb(107, 107, 128);"></li>
+            <li style="font-size: 12px; color: rgb(107, 107, 128)"></li>
           </ul>
         </el-header>
-        <el-container style="min-height: 400px;">
-          <el-aside style="width: 160px;">
+        <el-container style="min-height: 400px">
+          <el-aside style="width: 160px">
             <div class="myQuestionMenu">
               <div class="openMenu">
                 <div class="title">个人中心</div>
@@ -46,10 +53,10 @@ export default {
   fetch({ store, params }) {
     store.commit("setCurrentActive", "stuMyInformation");
   },
-  async asyncData({ req }) {
+  async asyncData({ req, $api }) {
     if (process.server) {
       if (req && req.headers.cookie) {
-        api.setUpCookie(req.headers.cookie);
+        $api.setUpCookie(req.headers.cookie);
       }
     }
     // let result = await api.getMessages();
@@ -57,7 +64,7 @@ export default {
     // return {
     //   message: message
     // };
-  }
+  },
 };
 </script>
 

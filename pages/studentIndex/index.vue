@@ -102,23 +102,22 @@
 </template>
 
 <script>
-import api from "../../utils/api";
 export default {
   layout: "default",
   fetch({ store, params }) {
     store.commit("setCurrentActive", "studentIndex");
   },
-  async asyncData({ req }) {
+  async asyncData({ req,$api }) {
     if (process.server) {
       if (req && req.headers.cookie) {
-        api.setUpCookie(req.headers.cookie);
+        $api.setUpCookie(req.headers.cookie);
       }
     }
-    let result = await api.getMessages();
+    let result = await $api.getMessages();
     let message = result.data;
-    result = await api.getHotCourse();
+    result = await $api.getHotCourse();
     let hotCourse = result.data;
-    result = await api.getMyCourse();
+    result = await $api.getMyCourse();
     let myCourse = result.data;
     return {
       message: message,

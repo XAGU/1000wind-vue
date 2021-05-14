@@ -2,17 +2,21 @@ import http from './http'
 
 //export const baseUrl = "http://localhost:3000/proxy/";
 //export const baseUrl = "http://rlfz.1000wind.top/proxy/";
-export const baseUrl = "/";
+export const baseUrl = "http://localhost:3000/proxy/";
 
 
-const SUCCESS_CODE = 200;
 
-export default {
-  SUCCESS_CODE,
+export default class Api {
+
+  constructor(axios) {
+    this.MyHttp = new http(axios)
+  }
+
+  SUCCESS_CODE = 200;
 
   setUpCookie(cookie) {
-    http.setUpCookie(cookie);
-  },
+    this.MyHttp.setUpCookie(cookie); 
+  };
 
   /**
    * 登录
@@ -21,84 +25,89 @@ export default {
    * @param {*} rememberme 
    */
   login(username, password, rememberme) {
-    return http.requestPost(baseUrl + 'login', {
+    return this.MyHttp.requestPost(baseUrl + 'oauth2-service/oauth/token', {
       "username": username,
       "password": password,
-      "remember-me": rememberme
+      "grant_type": 'password',
+      "client_id": 'app-client',
+      "client_secret": 'client-secret-8888',
+      "scope": 'all'
     });
-  },
+  };
 
   /**
-  * 登录
-  */
+   * 登录
+   */
   logout() {
-    return http.requestPost(baseUrl + 'logout');
-  },
+    return this.MyHttp.requestPost(baseUrl + 'user-service/logout');
+  };
 
   /**
    * 获取当前用户信息
    */
   getLoginInfo() {
-    return http.requestGet(baseUrl + 'api/user/myself');
-  },
+    return this.MyHttp.requestGet(baseUrl + 'user-service/api/user/myself');
+  };
 
   /**
    * 获取通知
    */
   getMessages() {
-    return http.requestGet(baseUrl + 'api/message?page=1&limit=3')
-  },
+    return this.MyHttp.requestGet(baseUrl + 'message-service/api/message?page=1&limit=3')
+  };
 
   /**
    * 获取热门课程
    */
   getHotCourse() {
-    return http.requestGet(baseUrl + 'api/course/courseOrderByClick?page=1&limit=6')
-  },
+    return this.MyHttp.requestGet(baseUrl + 'course-service/api/course/courseOrderByClick?page=1&limit=6')
+  };
 
   /**
    * 获取我的课程
    */
   getMyCourse() {
-    return http.requestGet(baseUrl + 'api/coursesOfStudent')
-  },
+    return this.MyHttp.requestGet(baseUrl + 'course-service/api/coursesOfStudent')
+  };
 
   /**
- * 获取课程分类
- */
+   * 获取课程分类
+   */
   getSubjects() {
-    return http.requestGet(baseUrl + 'api/subject?page=1&limit=20')
-  },
+    return this.MyHttp.requestGet(baseUrl + 'course-service/api/subject?page=1&limit=20')
+  };
 
   /**
    * 根据实训分类id查实训
    */
   getCourseBySubjects(page, id) {
     if (id === 0 || id === "0") {
-      return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8')
+      return this.MyHttp.requestGet(baseUrl + 'practical-service/api/practical?page=' + page + '&limit=8')
     } else {
-      return http.requestGet(baseUrl + 'api/practical?page=' + page + '&limit=8&subjectType.subjectId=' + id)
+      return this.MyHttp.requestGet(baseUrl + 'practical-service/api/practical?page=' + page + '&limit=8&subjectType.subjectId=' + id)
     }
-  },
+  };
 
 
   /**
-* 实训方案点击量加一
-*/
+   * 实训方案点击量加一
+   */
   addPracticalClick(practicalId) {
-    return http.requestPut(baseUrl + 'api/practical/addclick', { "id": practicalId })
-  },
+    return this.MyHttp.requestPut(baseUrl + 'practical-service/api/practical/addclick', {
+      "id": practicalId
+    })
+  };
 
   /**
-  * 根据课程类型和科目查课程 
-  */
+   * 根据课程类型和科目查课程 
+   */
   getCourseByStyleAndSubject(page, courseStyle, subjectId) {
     if (subjectId === 0 || subjectId === "0") {
-      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=8&courseStyle=' + courseStyle)
+      return this.MyHttp.requestGet(baseUrl + 'course-service/api/course/containSubject?page=' + page + '&limit=8&courseStyle=' + courseStyle)
     } else {
-      return http.requestGet(baseUrl + 'api/course/containSubject?page=' + page + '&limit=8&courseStyle=' + courseStyle + "&subjectType.subjectId=" + subjectId)
+      return this.MyHttp.requestGet(baseUrl + 'course-service/api/course/containSubject?page=' + page + '&limit=8&courseStyle=' + courseStyle + "&subjectType.subjectId=" + subjectId)
     }
-  },
+  };
 
   /**
    * 查询实战进阶的课程
@@ -106,7 +115,7 @@ export default {
    */
   getSzjjCourseByStyleAndSubject(page, subjectId) {
     return this.getCourseByStyleAndSubject(page, 0, subjectId)
-  },
+  };
 
 
   /**
@@ -115,7 +124,7 @@ export default {
    */
   getJsgkkCourseByStyleAndSubject(page, subjectId) {
     return this.getCourseByStyleAndSubject(page, 1, subjectId)
-  },
+  };
 
   /**
    * 查询毕设项目的课程
@@ -123,7 +132,7 @@ export default {
    */
   getBsxmCourseByStyleAndSubject(page, subjectId) {
     return this.getCourseByStyleAndSubject(page, 2, subjectId)
-  },
+  };
 
   /**
    * 查询毕设公开课的课程
@@ -131,39 +140,39 @@ export default {
    */
   getBsgkkCourseByStyleAndSubject(page, subjectId) {
     return this.getCourseByStyleAndSubject(page, 3, subjectId)
-  },
+  };
 
 
 
 
   /**
-  * 获取所有的教师
-  */
+   * 获取所有的教师
+   */
   getTeachers(page) {
-    return http.requestGet(baseUrl + 'api/user?page=' + page + '&limit=10&roleId=2')
-  },
+    return this.MyHttp.requestGet(baseUrl + 'user-service/api/user?page=' + page + '&limit=10&roleId=2')
+  };
 
 
 
   /**
-  * 修改个人信息
-  */
+   * 修改个人信息
+   */
   updateSelfInfo(username, realName, phoneNum, email, desc) {
-    return http.requestPut(baseUrl + 'api/user/myself', {
+    return this.MyHttp.requestPut(baseUrl + 'user-service/api/user/myself', {
       "username": username,
       "realName": realName,
       "phoneNum": phoneNum,
       "email": email,
       "desc": desc
     })
-  },
+  };
 
 
   /**
-  * 获取某个课程的签到
-  */
+   * 获取某个课程的签到
+   */
   getCourseSign(courseId) {
-    return http.requestGet(baseUrl + 'api/userSign?page=1&limit=10&courseId=' + courseId)
-  },
+    return this.MyHttp.requestGet(baseUrl + 'sign-service/api/userSign?page=1&limit=10&courseId=' + courseId)
+  };
 
 }

@@ -35,7 +35,7 @@
                           <i class="el-icon-user"></i>
                           {{item.practicalClick}}
                         </span>
-                        <span class="float-right">千峰科技</span>
+                        <span class="float-right">在线教育</span>
                       </p>
                       <div
                         class="btn"
@@ -92,7 +92,7 @@
                           <i class="el-icon-user"></i>
                           {{item.courseClick}}
                         </span>
-                        <span class="float-right">千峰科技</span>
+                        <span class="float-right">在线教育</span>
                       </p>
                     </div>
                   </div>
@@ -143,7 +143,7 @@
                           <i class="el-icon-user"></i>
                           {{item.courseClick}}
                         </span>
-                        <span class="float-right">千峰科技</span>
+                        <span class="float-right">在线教育</span>
                       </p>
                     </div>
                   </div>
@@ -199,7 +199,7 @@
                             <i class="el-icon-user"></i>
                             {{item.courseClick}}
                           </span>
-                          <span class="float-right">千峰科技</span>
+                          <span class="float-right">在线教育</span>
                         </p>
                       </div>
                     </div>
@@ -271,7 +271,7 @@
                     >
                       <div class="line"></div>
                       <div class="pic">
-                        <img :src="'http://rlfz.1000wind.top'+item.headImg" />
+                        <img :src="item.headImg" />
                       </div>
                       <p class="name">{{item.realName}}</p>
                       <el-tooltip class="pp" effect="dark" :content="item.desc" placement="top">
@@ -298,32 +298,26 @@
 </template>
 
 <script>
-import api from "../../utils/api";
 export default {
   layout: "default",
   fetch({ store, params }) {
     store.commit("setCurrentActive", "practiceCenterStu");
   },
-  async asyncData({ req }) {
-    if (process.server) {
-      if (req && req.headers.cookie) {
-        api.setUpCookie(req.headers.cookie);
-      }
-    }
-    let result = await api.getSubjects();
+  async asyncData({ req,$api }) {
+    let result = await $api.getSubjects();
     let subjects = result.data;
     subjects.unshift({ subjectId: "0", subjectName: "全部" });
-    result = await api.getCourseBySubjects(1, 0);
+    result = await $api.getCourseBySubjects(1, 0);
     let practical = result;
-    result = await api.getSzjjCourseByStyleAndSubject(1, 0);
+    result = await $api.getSzjjCourseByStyleAndSubject(1, 0);
     let szjjCourse = result;
-    result = await api.getJsgkkCourseByStyleAndSubject(1, 0);
+    result = await $api.getJsgkkCourseByStyleAndSubject(1, 0);
     let jsgkkCourse = result;
-    result = await api.getBsxmCourseByStyleAndSubject(1, 0);
+    result = await $api.getBsxmCourseByStyleAndSubject(1, 0);
     let bsxmCourse = result;
-    result = await api.getBsgkkCourseByStyleAndSubject(1, 0);
+    result = await $api.getBsgkkCourseByStyleAndSubject(1, 0);
     let bsgkkCourse = result;
-    result = await api.getTeachers(1);
+    result = await $api.getTeachers(1);
     let teachers = result;
     return {
       activeId: "0",
@@ -345,7 +339,7 @@ export default {
   },
   methods: {
     setData(model, data) {
-      if (data.code == api.SUCCESS_CODE) {
+      if (data.code == this.$api.SUCCESS_CODE) {
         this[model] = data;
         let length = this[model].data.length;
         if (length > 0) {
@@ -388,45 +382,45 @@ export default {
     },
 
     handleCurrentPracticalChange(val) {
-      api.getCourseBySubjects(val, this.activeId).then(result => {
+      this.$api.getCourseBySubjects(val, this.activeId).then(result => {
         this.setData("practical", result);
       });
     },
     handleCurrentSzjjChange(val) {
-      api
+      this.$api
         .getSzjjCourseByStyleAndSubject(val, this.szjjActiveId)
         .then(result => {
           this.setData("szjjCourse", result);
         });
     },
     handleCurrentJsgkkChange(val) {
-      api
+      this.$api
         .getJsgkkCourseByStyleAndSubject(val, this.jsgkkActiveId)
         .then(result => {
           this.setData("jsgkkCourse", result);
         });
     },
     handleCurrentBsxmChange(val) {
-      api
+      this.$api
         .getBsxmCourseByStyleAndSubject(val, this.bsxmActiveId)
         .then(result => {
           this.setData("bsxmCourse", result);
         });
     },
     handleCurrentBsgkkChange(val) {
-      api
+      this.$api
         .getBsgkkCourseByStyleAndSubject(val, this.bsgkkActiveId)
         .then(result => {
           this.setData("bsgkkCourse", result);
         });
     },
     handleCurrentTeacherChange(val) {
-      api.getTeachers(val).then(result => {
+      this.$api.getTeachers(val).then(result => {
         this.setData("teachers", result);
       });
     },
     downLoadPractical(url, practicalId) {
-      api.addPracticalClick(practicalId);
+      this.$api.addPracticalClick(practicalId);
       window.open(url, "_blank");
     },
     getBsgkkCourseStatus(row, column, cellValue, index) {

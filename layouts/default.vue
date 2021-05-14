@@ -11,13 +11,37 @@
         <div class="header-menu float-right">
           <ul class="float-left">
             <nuxt-link to="/studentIndex">
-              <li :class="$store.state.currentActive==='studentIndex'?'menu-active':''">学习中心</li>
+              <li
+                :class="
+                  $store.state.currentActive === 'studentIndex'
+                    ? 'menu-active'
+                    : ''
+                "
+              >
+                学习中心
+              </li>
             </nuxt-link>
             <nuxt-link to="/practiceCenterStu">
-              <li :class="$store.state.currentActive==='practiceCenterStu'?'menu-active':''">实践中心</li>
+              <li
+                :class="
+                  $store.state.currentActive === 'practiceCenterStu'
+                    ? 'menu-active'
+                    : ''
+                "
+              >
+                实践中心
+              </li>
             </nuxt-link>
             <nuxt-link to="/personal/message">
-              <li :class="$store.state.currentActive==='stuMyInformation'?'menu-active':''">个人中心</li>
+              <li
+                :class="
+                  $store.state.currentActive === 'stuMyInformation'
+                    ? 'menu-active'
+                    : ''
+                "
+              >
+                个人中心
+              </li>
             </nuxt-link>
           </ul>
           <div class="header-user-info float-left">
@@ -30,7 +54,7 @@
               ></el-avatar>
               <el-dropdown>
                 <span class="el-dropdown-link">
-                  {{myself.username}}
+                  {{ myself.username }}
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
@@ -51,15 +75,17 @@
       <div class="center-box clear-fix">
         <div class="footer-link clear-fix">
           <ul>
-            <li>如来佛主</li>
-            <li>项目源码</li>
+            <li>在线教育</li>
+            <li>毕业设计</li>
             <li>后台管理</li>
             <li>常见问题</li>
             <li>联系我们</li>
           </ul>
         </div>
         <div class="size-info">
-          <p>&COPY; 2019 rlfz.kwind.top 鄂IPC备 8888888号-11 code by 如来佛组</p>
+          <p>
+            &COPY; 2021 鄂IPC备 8888888号-11 code by 程前
+          </p>
         </div>
       </div>
     </div>
@@ -74,19 +100,20 @@ export default {
     return {
       myself: {
         headImg: "http://localhost:8080/upload/img/default_head.jpg",
-        username: "未登录"
-      }
+        username: "未登录",
+      },
     };
   },
   created() {
-    api.getLoginInfo().then(result => {
-      console.log(result.code);
-      if (result.code === api.SUCCESS_CODE) {
-        this.myself = result.data;
-      } else {
-        this.$router.push("/userLogin");
-      }
-    });
+    this.myself = this.$auth.user
+    // this.$api.getLoginInfo().then((result) => {
+    //   console.log(result.code);
+    //   if (result.code === api.SUCCESS_CODE) {
+    //     this.myself = result.data;
+    //   } else {
+    //     this.$router.push("/userLogin");
+    //   }
+    // });
   },
   methods: {
     onHeadImgError() {
@@ -95,20 +122,14 @@ export default {
     },
     logout() {
       console.log("aaa");
-      api.logout().then(result => {
-        if (result.code === api.SUCCESS_CODE) {
-          this.$message({
-            message: "退出成功",
-            type: "success"
-          });
-          this.$router.replace("/userLogin");
-        } else {
-          this.$message.error(result.msg);
-          this.$router.replace("/userLogin");
-        }
+      this.$auth.logout()
+      this.$message({
+        message: "退出成功",
+        type: "success",
       });
-    }
-  }
+      // this.$router.replace("/userLogin");
+    },
+  },
 };
 </script>
 

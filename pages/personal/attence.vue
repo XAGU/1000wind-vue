@@ -25,20 +25,19 @@
 </template>
 
 <script>
-import api from "../../utils/api";
 export default {
   data() {
     return {
       signData: []
     };
   },
-  async asyncData({ req }) {
+  async asyncData({ req,$api }) {
     if (process.server) {
       if (req && req.headers.cookie) {
-        api.setUpCookie(req.headers.cookie);
+        $api.setUpCookie(req.headers.cookie);
       }
     }
-    let result = await api.getMyCourse();
+    let result = await $api.getMyCourse();
     let myCourse = result.data;
     return {
       myCourse: myCourse
@@ -47,8 +46,8 @@ export default {
   methods: {
     handleSign(row) {
       this.signData = [];
-      api.getCourseSign(row.courseId).then(result => {
-        if (result.code == api.SUCCESS_CODE) {
+      this.$api.getCourseSign(row.courseId).then(result => {
+        if (result.code == this.$api.SUCCESS_CODE) {
           this.signData = result.data;
         } else {
           this.$message.error("获取失败");

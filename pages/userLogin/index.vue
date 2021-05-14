@@ -5,6 +5,7 @@
         <h3 class="lg-title">登录</h3>
         <el-form
           ref="loginForm"
+          :rules="rules"
           :model="loginForm"
           class="login-form"
           autocomplete="on"
@@ -23,7 +24,12 @@
             />
           </el-form-item>
 
-          <el-tooltip v-model="capsTooltip" content="键盘大写已开启" placement="right" manual>
+          <el-tooltip
+            v-model="capsTooltip"
+            content="键盘大写已开启"
+            placement="right"
+            manual
+          >
             <el-form-item prop="password">
               <el-input
                 ref="password"
@@ -41,16 +47,29 @@
             </el-form-item>
           </el-tooltip>
 
-          <el-checkbox class="remember-me" v-model="rememberme">记住密码</el-checkbox>
+          <el-checkbox class="remember-me" v-model="rememberme"
+            >记住密码</el-checkbox
+          >
           <el-button
             :loading="loading"
             type="primary"
-            style="width:100%;margin-bottom:30px;"
+            style="width: 100%; margin-bottom: 30px"
             class="login-button"
             @click.native.prevent="handleLogin"
-          >登录</el-button>
-          <a href="javaScript:void(0)" onclick="toRegister()" class="register float-left">新用户注册</a>
-          <a href="javaScript:void(0)" onclick="otherLogin(2)" class="forget float-right">忘记密码</a>
+            >登录</el-button
+          >
+          <a
+            href="javaScript:void(0)"
+            onclick="toRegister()"
+            class="register float-left"
+            >新用户注册</a
+          >
+          <a
+            href="javaScript:void(0)"
+            onclick="otherLogin(2)"
+            class="forget float-right"
+            >忘记密码</a
+          >
         </el-form>
         <p class="Agreement">
           登录即表示同意平台
@@ -70,11 +89,20 @@ export default {
     return {
       loginForm: {
         username: "",
-        password: ""
+        password: "",
       },
       capsTooltip: false,
       loading: false,
-      rememberme: true
+      rememberme: true,
+      rules: {
+        username: [
+          { required: true, message: "用户名不能为空", trigger: "blur" },
+          { min: 3, message: "用户名长度应大于3", trigger: "blur" },
+        ],
+        password: [
+          { required: true, message: "密码不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
   mounted() {
@@ -90,28 +118,43 @@ export default {
       this.capsTooltip = key && key.length === 1 && key >= "A" && key <= "Z";
     },
     handleLogin() {
-      this.loading = true;
-      api
-        .login(
-          this.loginForm.username,
-          this.loginForm.password,
-          this.rememberme ? "on" : ""
-        )
-        .then(result => {
-          if (result.code == api.SUCCESS_CODE) {
-            this.loading = false;
-            this.$message({
-              message: "恭喜你，登录成功",
-              type: "success"
+      this.$refs["loginForm"].validate((valid) => {
+        if (valid) {
+          this.loading = true;
+          const form = {
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+            client_secret: "client-secret-8888",
+            grant_type: "password",
+            client_id: "app-client",
+            scope: "all",
+          };
+          const formLogin = Object.keys(form)
+            .map(
+              (a) => encodeURIComponent(a) + "=" + encodeURIComponent(form[a])
+            )
+            .join("&");
+          this.$auth
+            .loginWith("social", {
+              data: formLogin,
+              headers: {
+                "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+              },
+            })
+            .then(() => {
+              this.loading = false;
+              this.$message({message: "恭喜你，登录成功",type: "success"});
+            })
+            .catch((err) => {
+              this.loading = false;
+              this.$message.error("登录失败");
             });
-            this.$router.push('studentIndex')
-          } else {
-            this.loading = false;
-            this.$message.error(result.msg);
-          }
-        });
-    }
-  }
+        } else {
+          return false;
+        }
+      });
+    },
+  },
 };
 </script>
 
@@ -206,11 +249,15 @@ export default {
   border: none;
 }
 
-.login-page  .el-input__icon {
+.login-page .el-input__icon {
   width: 50px;
 }
 
-.login-page  .el-input--prefix .el-input__inner {
+.el-form-item__error {
+  left: 20px;
+}
+
+.login-page .el-input--prefix .el-input__inner {
   padding-left: 60px;
 }
 

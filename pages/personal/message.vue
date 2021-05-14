@@ -28,15 +28,9 @@
 </template>
 
 <script>
-import api from "../../utils/api";
 export default {
-  async asyncData({ req }) {
-    if (process.server) {
-      if (req && req.headers.cookie) {
-        api.setUpCookie(req.headers.cookie);
-      }
-    }
-    let result = await api.getMessages();
+  async asyncData({ req,$api }) {
+    let result = await $api.getMessages();
     let message = result.data;
     return {
       message: message

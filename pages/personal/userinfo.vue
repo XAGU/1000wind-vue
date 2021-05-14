@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import api from "../../utils/api";
 import { validEmail, validPhone } from "../../utils/validates";
 export default {
   data() {
@@ -77,14 +76,9 @@ export default {
       }
     };
   },
-  asyncData({ req }) {
-    if (process.server) {
-      if (req && req.headers.cookie) {
-        api.setUpCookie(req.headers.cookie);
-      }
-    }
-    return api.getLoginInfo().then(result => {
-      if (result.code === api.SUCCESS_CODE) {
+  asyncData({ req,$api }) {
+    return $api.getLoginInfo().then(result => {
+      if (result.code === $api.SUCCESS_CODE) {
         let myself = result.data;
         return {
           myself: myself
@@ -94,7 +88,7 @@ export default {
   },
   methods: {
     submit(myself) {
-      api
+      this.$api
         .updateSelfInfo(
           myself.username,
           myself.realName,
@@ -103,7 +97,7 @@ export default {
           myself.desc
         )
         .then(result => {
-          if (result.code == api.SUCCESS_CODE) {
+          if (result.code == this.$api.SUCCESS_CODE) {
             console.log("aaaaaaaaaa")
             this.$message({
               message: "修改成功",
